@@ -15,7 +15,7 @@ function App() {
            <input className="inputs" type="text"/> mm<br/>
            <label className="labels">LEVELS: </label>
            <input className="inputs" type="text"/> mm<br/>
-           <input className="submit" type="submit" value="Submit"/>
+           <button className="submit" onClick= {function() { console.log("SUBMIT"); }}>Submit</button>
           </form>
         </div>
       </header>
