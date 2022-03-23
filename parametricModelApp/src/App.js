@@ -4,24 +4,24 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>PARAMETRIC MODEL OF CABLE BOX</p>
+        <p>PARAMETRIC MODEL OF A CABLE BOX</p>
         <div className="formDiv">
          <form>
-           <label>LONGITUD</label>
-           <input type="text"/><br/>
-           <label>ALTURA</label>
-           <input type="text"/><br/>
-           <label>PROFUNDIDAD</label>
-           <input type="text"/><br/>
-           <label>NIVELES</label>
-           <input type="text"/><br/>
-           <input type="submit" value="Submit"/>
+           <label className="labels">WIDTH: </label>
+           <input className="inputs" type="text"/> mm<br/>
+           <label className="labels">HEIGHT: </label>
+           <input className="inputs" type="text"/> mm<br/>
+           <label className="labels">DEPTH: </label>
+           <input className="inputs" type="text"/> mm<br/>
+           <label className="labels">LEVELS: </label>
+           <input className="inputs" type="text"/> mm<br/>
+           <input className="submit" type="submit" value="Submit"/>
           </form>
         </div>
       </header>
       <div>
         <header>
-          <p>HOLA</p>
+          <p>AQUI VA EL STL</p>
         </header>
       </div>
     </div>
