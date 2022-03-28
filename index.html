@@ -6,6 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CABLE BOX</title>
+    <script>
+        function clickSubmit() { 
+            var width=document.getElementById('inputWidth').value;
+            var height=document.getElementById('inputHeight').value;
+            var depth=document.getElementById('inputDepth').value;
+            var levels=document.getElementById('inputLevels').value;
+            //alert("Width: " + width + " \nHeight: " + height + " \nDepth: " + depth + " \nLevels: " + levels);
+           
+            var numbers = /^[-+]?[0-9]+$/;
+            if(width.match(numbers) && height.match(numbers) && depth.match(numbers) && levels.match(numbers))
+            {
+                    //solo numeros enteros
+            } else { alert(" Please, introduce only numbers and without comma"); } }
+    </script>
 </head>
 
 <body>
@@ -22,18 +36,7 @@
                     <input className="inputs" type="text" id="inputDepth" /> mm<br />
                     <label className="labels">LEVELS: </label>
                     <input className="inputs" type="text" id="inputLevels" /> mm<br />
-                    <button className="submit" onClick={function() { var
-                        width=document.getElementById('inputWidth').value; var
-                        height=document.getElementById('inputHeight').value; var
-                        depth=document.getElementById('inputDepth').value; var
-                        levels=document.getElementById('inputLevels').value; //alert("Width: " + width + "
-                        \nHeight: " + height + " \nDepth: " + depth + " \nLevels: " + levels);
-           
-           var numbers = /^[-+]?[0-9]+$/;
-           if(width.match(numbers) && height.match(numbers) && depth.match(numbers) && levels.match(numbers))
-           {
-              //solo numeros enteros
-           } else { alert(" Please, introduce only numbers and without comma"); } }}>Submit</button>
+                    <button className="submit" onClick="clickSubmit()">Submit</button>
                 </form>
             </div>
         </header>
@@ -43,6 +46,38 @@
             </header>
         </div>
     </div>
+    <style>
+        div {
+            text-align: center;
+        }
+    
+        header {
+            background-color: #282c34;
+            min-height: 35vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: calc(10px + 2vmin);
+            color: white;
+        }
+    
+        .formDiv {
+            width: 30vh;
+            display: contents;
+        }
+    
+        label {
+            color: lightblue;
+        }
+    
+        input {
+            padding-top: 10px;
+        }
+    
+        button {
+            font-size: 20px;
+        }
+    </style>
 </body>
 
 </html>
