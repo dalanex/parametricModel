@@ -28,7 +28,9 @@
             </div>
         </header>
     </div>
-
+    <div><button id="botonRender" onclick="clickRender()" style="margin: 10px;">RENDER OBJECT</button>
+        <button id="botonRefrescar" onclick="refresh()">REFRESH RENDER</button>
+    </div>
     <script src="http://threejs.org/build/three.min.js"></script>
 
     <script src="http://threejs.org/examples/js/loaders/STLLoader.js"></script>
@@ -36,20 +38,38 @@
     <script>
 
         var container, camera, scene, renderer;
+        var rendered = false;
 
-        init();
-        animate();
+        function clickRender() {
+            if (!rendered) {
+                rendered = true;
+                init();
+                animate();
+            }
+        }
+
+        function refresh() {
+            deleteRenders();
+            rendered = false;
+            clickRender();
+        }
+
+        function deleteRenders() {
+            var element = document.getElementById('divCreado');
+            element.remove();
+        }
 
         function init() {
 
-            container = document.createElement( 'div' );
-            document.body.appendChild( container );
+            container = document.createElement('div');
+            container.id = 'divCreado';
+            document.body.appendChild(container);
 
             // renderer
 
-            renderer = new THREE.WebGLRenderer( { antialias: true } );
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            container.appendChild( renderer.domElement );
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
 
             // scene
 
@@ -57,13 +77,13 @@
 
             // camera
 
-            camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 4, 10000 );
-            camera.position.set( 3, 0.5, 3 );
-            scene.add( camera ); // required, because we are adding a light as a child of the camera
+            camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 4, 10000);
+            camera.position.set(3, 0.5, 3);
+            scene.add(camera); // required, because we are adding a light as a child of the camera
 
             // lights
 
-            scene.add( new THREE.AmbientLight( 0xffffff ) );
+            scene.add(new THREE.AmbientLight(0xffffff));
 
             /*var light1 = new THREE.DirectionalLight(0xffffff);
             light1.position.set(0, 100, 100);
@@ -73,26 +93,26 @@
             light2.position.set(0, -100, -100);
             scene.add(light2);*/
 
-            var light = new THREE.PointLight( 0xffffff, 0.8 );
-            camera.add( light );
+            var light = new THREE.PointLight(0xffffff, 0.8);
+            camera.add(light);
 
             // object
 
             var loader = new THREE.STLLoader();
-            loader.load( './exit.stl', function ( geometry ) {
+            loader.load('./exit.stl', function (geometry) {
                 var material = new THREE.MeshPhongMaterial({    //material verde fofi
                     color: 0x339900, ambient: 0x339900, specular: 0x030303,
                 });
                 //var material = new THREE.MeshPhongMaterial( { color: 0xff5533 } );
 
-                var mesh = new THREE.Mesh( geometry, material );
+                var mesh = new THREE.Mesh(geometry, material);
                 mesh.rotation.x = -1.5708;
                 mesh.rotation.y = 0.2;
-                scene.add( mesh );
+                scene.add(mesh);
 
-            } );
+            });
 
-            window.addEventListener( 'resize', onWindowResize, false );
+            window.addEventListener('resize', onWindowResize, false);
 
         }
 
@@ -101,15 +121,15 @@
             camera.aspect = window.innerWidth / window.innerHeight;
 
             camera.updateProjectionMatrix();
-            
+
             //renderer.setSize(100, 100);
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setSize(window.innerWidth, window.innerHeight);
 
         }
 
         function animate() {
 
-            requestAnimationFrame( animate );
+            requestAnimationFrame(animate);
 
             render();
 
@@ -119,12 +139,12 @@
 
             var timer = Date.now() * 0.0005;
 
-            camera.position.x = Math.cos( timer ) * 25;
-            camera.position.z = Math.sin( timer ) * 25;
+            camera.position.x = Math.cos(timer) * 25;
+            camera.position.z = Math.sin(timer) * 25;
 
-            camera.lookAt( scene.position );
+            camera.lookAt(scene.position);
 
-            renderer.render( scene, camera );
+            renderer.render(scene, camera);
 
         }
 
@@ -138,7 +158,7 @@
         div {
             text-align: center;
         }
-    
+
         header {
             background-color: #282c34;
             min-height: 30vh;
@@ -148,15 +168,15 @@
             font-size: calc(10px + 2vmin);
             color: white;
         }
-    
+
         label {
             color: lightblue;
         }
-    
+
         input {
             padding-top: 10px;
         }
-    
+
         button {
             font-size: 20px;
         }
