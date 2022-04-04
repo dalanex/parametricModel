@@ -33,11 +33,13 @@ function generarSTL(width, depth, height, nLayer) {
   //Generar caras verticales 
   //Pared Lateral sobre x = 0
   generateVerticalFacet(0, height, depth);
+  generateOppositeVerticalFacet(0, height, depth)
   //Pared Lateral sobre x = width
   generateVerticalFacet(width, height, depth);
+  generateOppositeVerticalFacet(width, height, depth);
   //Generar caras horizontales
   //Generar base 
-  generateHorizontalFacet(width, 0, depth); 
+  generateHorizontalFacet(width, 0, depth);
   generateOppositeHorizontalFacet(width, 0, depth);
   //Generar tapa superior 
   generateHorizontalFacet(width, height, depth);
@@ -47,7 +49,7 @@ function generarSTL(width, depth, height, nLayer) {
   var layerHeight = (height) / (nLayer + 1) //layer+1 si son nº "estantes" y layer si nº huecos
   //bucle para N capas
   for (let layer = 1; layer <= nLayer; layer++) {
-    generateHorizontalFacet(width, (layer*layerHeight), depth);
+    generateHorizontalFacet(width, (layer * layerHeight), depth);
   }
 
 }
@@ -72,19 +74,35 @@ function generateVerticalFacet(width, height, depth) {
   FacetTrinagleString(point4, point1, pointCenter);
 }
 
-function generateOppositeHorizontalFacet(width, height, depth) {
+function generateOppositeVerticalFacet(width, height, depth) {
   let pointCenter = GeneratePoint(width, (height / 2), (depth) / 2);
 
+  let point1 = GeneratePoint(width, 0, 0);
+  let point2 = GeneratePoint(width, height, 0);
+  FacetTrinagleString(point1, point2, pointCenter);
+
+  let point3 = GeneratePoint(width, height, depth);
+  FacetTrinagleString(point2, point3, pointCenter);
+
+  let point4 = GeneratePoint(width, 0, depth);
+  FacetTrinagleString(point3, point4, pointCenter);
+
+  FacetTrinagleString(point4, point1, pointCenter);
+}
+
+function generateOppositeHorizontalFacet(width, height, depth) {
+  let pointCenter = GeneratePoint((width/2), height, (depth/2) );
+
   //Triangle 1
-  let point1 = (0, height, 0);
-  let point2 = (width, height, 0);
+  let point1 = GeneratePoint(0, height, 0);
+  let point2 = GeneratePoint(width, height, 0);
   FacetTrinagleString(point1, point2, pointCenter);
 
   //Triangle 2
-  let point3 = (width, height, depth);
+  let point3 = GeneratePoint(width, height, depth);
   FacetTrinagleString(point2, point3, pointCenter);
 
-  let point4 = (0, height, depth);
+  let point4 = GeneratePoint(0, height, depth);
   FacetTrinagleString(point3, point4, pointCenter);
 
   FacetTrinagleString(point4, point1, pointCenter);
@@ -127,7 +145,7 @@ function FacetTrinagleString(point1, point2, pointCenter) {
   stlString += `\n   vertex ${point2.x} ${point2.y} ${point2.z}`
   stlString += `\n   vertex ${pointCenter.x} ${pointCenter.y} ${pointCenter.z}`
   stlString += `\n  endloop`
-  stlString +=`\n endfacet`
+  stlString += `\n endfacet`
 }
 
 function Points2Vector(p1, p2) {

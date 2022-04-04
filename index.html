@@ -99,7 +99,7 @@
             // object
 
             var loader = new THREE.STLLoader();
-            loader.load('./salida.stl', function (geometry) {
+            loader.load('./js/salida.stl', function (geometry) {
                 var material = new THREE.MeshPhongMaterial( { color: 0xff5533 } );
 
                 var mesh = new THREE.Mesh(geometry, material);
