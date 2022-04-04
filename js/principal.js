@@ -19,6 +19,8 @@ async function main() {
 
   await generarSTL(2, 2, 2, 3);
 
+  stlString += "\nensolid STL"
+
   fs.writeFile('./salida.stl', stlString, (err) => {
     if (err) console.log(err)
   })
@@ -35,9 +37,11 @@ function generarSTL(width, depth, height, nLayer) {
   generateVerticalFacet(width, height, depth);
   //Generar caras horizontales
   //Generar base 
-  generateHorizontalFacet(width, 0, depth);
+  generateHorizontalFacet(width, 0, depth); 
+  generateOppositeHorizontalFacet(width, 0, depth);
   //Generar tapa superior 
   generateHorizontalFacet(width, height, depth);
+  generateOppositeHorizontalFacet(width, height, depth);
 
   //altura entre capas
   var layerHeight = (height) / (nLayer + 1) //layer+1 si son nº "estantes" y layer si nº huecos
@@ -65,6 +69,24 @@ function generateVerticalFacet(width, height, depth) {
   FacetTrinagleString(point3, point4, pointCenter);
 
   //Fourth triangle
+  FacetTrinagleString(point4, point1, pointCenter);
+}
+
+function generateOppositeHorizontalFacet(width, height, depth) {
+  let pointCenter = GeneratePoint(width, (height / 2), (depth) / 2);
+
+  //Triangle 1
+  let point1 = (0, height, 0);
+  let point2 = (width, height, 0);
+  FacetTrinagleString(point1, point2, pointCenter);
+
+  //Triangle 2
+  let point3 = (width, height, depth);
+  FacetTrinagleString(point2, point3, pointCenter);
+
+  let point4 = (0, height, depth);
+  FacetTrinagleString(point3, point4, pointCenter);
+
   FacetTrinagleString(point4, point1, pointCenter);
 }
 
