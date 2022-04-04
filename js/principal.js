@@ -50,6 +50,7 @@ function generarSTL(width, depth, height, nLayer) {
   //bucle para N capas
   for (let layer = 1; layer <= nLayer; layer++) {
     generateHorizontalFacet(width, (layer * layerHeight), depth);
+    generateOppositeHorizontalFacet(width, (layer * layerHeight), depth);
   }
 
 }
