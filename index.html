@@ -103,8 +103,8 @@
                 var material = new THREE.MeshPhongMaterial( { color: 0xff5533 } );
 
                 var mesh = new THREE.Mesh(geometry, material);
-                mesh.rotation.x = 0;
-                mesh.rotation.y = 0;
+                mesh.rotation.x = 1.5708;
+                mesh.rotation.y = 0.8;
                 mesh.rotation.z = 1.5708;
                 scene.add(mesh);
 
@@ -137,8 +137,8 @@
 
             var timer = Date.now() * 0.0005;
 
-            camera.position.x = Math.cos(0) * 50;
-            camera.position.z = Math.sin(0) * 50;
+            camera.position.x = Math.cos(timer) * 50;
+            camera.position.z = Math.sin(timer) * 50;
 
             camera.lookAt(scene.position);
 
