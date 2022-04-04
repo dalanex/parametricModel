@@ -99,15 +99,13 @@
             // object
 
             var loader = new THREE.STLLoader();
-            loader.load('./exit.stl', function (geometry) {
-                var material = new THREE.MeshPhongMaterial({    //material verde fofi
-                    color: 0x339900, ambient: 0x339900, specular: 0x030303,
-                });
-                //var material = new THREE.MeshPhongMaterial( { color: 0xff5533 } );
+            loader.load('./salida.stl', function (geometry) {
+                var material = new THREE.MeshPhongMaterial( { color: 0xff5533 } );
 
                 var mesh = new THREE.Mesh(geometry, material);
-                mesh.rotation.x = -1.5708;
-                mesh.rotation.y = 0.2;
+                mesh.rotation.x = 0;
+                mesh.rotation.y = 0;
+                mesh.rotation.z = 1.5708;
                 scene.add(mesh);
 
             });
@@ -139,8 +137,8 @@
 
             var timer = Date.now() * 0.0005;
 
-            camera.position.x = Math.cos(timer) * 25;
-            camera.position.z = Math.sin(timer) * 25;
+            camera.position.x = Math.cos(0) * 50;
+            camera.position.z = Math.sin(0) * 50;
 
             camera.lookAt(scene.position);
 

@@ -195,3 +195,4 @@
    vertex 1 1.5 1
   endloop
  endfacet
+ endsolid STL
