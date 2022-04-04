@@ -19,7 +19,7 @@ async function main() {
 
   await generarSTL(2, 2, 2, 3);
 
-  stlString += "\nensolid STL"
+  stlString += "\nendsolid STL"
 
   fs.writeFile('./salida.stl', stlString, (err) => {
     if (err) console.log(err)
