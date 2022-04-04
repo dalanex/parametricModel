@@ -83,6 +83,34 @@
    vertex 1 0 1
   endloop
  endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 0 1
+  endloop
+ endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 0 1
+  endloop
+ endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 0 1
+  endloop
+ endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 0 1
+  endloop
+ endfacet
  facet normal 0 2 0
   outer loop
    vertex 0 2 0
@@ -109,6 +137,34 @@
    vertex 2 2 0
    vertex 0 2 0
    vertex 1 2 1
+  endloop
+ endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 1 1
+  endloop
+ endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 1 1
+  endloop
+ endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 1 1
+  endloop
+ endfacet
+ facet normal NaN NaN NaN
+  outer loop
+   vertex undefined undefined undefined
+   vertex undefined undefined undefined
+   vertex 2 1 1
   endloop
  endfacet
  facet normal 0 2 0
@@ -195,3 +251,4 @@
    vertex 1 1.5 1
   endloop
  endfacet
+ensolid STL
