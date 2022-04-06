@@ -1,3 +1,4 @@
+
 function clickSubmit() { 
     var width=document.getElementById('inputWidth').value;
     var height=document.getElementById('inputHeight').value;
@@ -8,6 +9,7 @@ function clickSubmit() {
     var numbers = /^[-+]?[0-9]+$/;
     if(width.match(numbers) && height.match(numbers) && depth.match(numbers) && levels.match(numbers))
     {
-            //solo numeros enteros
+        fetch(`http://localhost:8000/${width}&${height}&${depth}&${levels}`)
+        .then(response => {})
     } else { alert(" Please, introduce only numbers and without comma"); } 
 }

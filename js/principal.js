@@ -9,20 +9,21 @@ var stlString = " solid STL";
 async function main() {
 
   server.get('/:param&:param2&:param3&:param4', (req, res) => {
-     generarSTL(req.params.param, req.params.param2, req.params.param3, req.params.param4)
-     res.send("hey")
-   })
-
-   server.listen(8000, () => {
-     console.log('En puerto 8000')
+    //deleteSTLIfExists();
+    generarSTL(req.params.param, req.params.param2, req.params.param3, req.params.param4)
+    res.send("hey")
   })
 
-  //await generarSTL(2, 2, 2, 3);
+  server.listen(8000, () => {
+    console.log('En puerto 8000')
+  })
 
+  //deleteSTLIfExists();
+  //await generarSTL(2, 2, 2, 3);
   console.log(stlString.length)
 }
 
-function generarSTL(width, depth, height, nLayer) {
+async function generarSTL(width, depth, height, nLayer) {
 
   //Generar caras verticales 
   //Pared Lateral sobre x = 0
@@ -49,9 +50,7 @@ function generarSTL(width, depth, height, nLayer) {
 
   stlString += "\nendsolid STL"
 
-  fs.writeFile('./salida.stl', stlString, (err) => {
-    if (err) console.log(err)
-  })
+  deleteSTLIfExists();
 }
 
 function generateVerticalFacet(width, height, depth) {
@@ -91,7 +90,7 @@ function generateOppositeVerticalFacet(width, height, depth) {
 }
 
 function generateOppositeHorizontalFacet(width, height, depth) {
-  let pointCenter = GeneratePoint((width/2), height, (depth/2) );
+  let pointCenter = GeneratePoint((width / 2), height, (depth / 2));
 
   //Triangle 1
   let point1 = GeneratePoint(0, height, 0);
@@ -165,5 +164,26 @@ function CalculateNVector(v1, v2) {
   return vec;
 }
 
+function deleteSTLIfExists() {
+  try {
+    if (fs.existsSync('./salida.stl')) {
+      fs.unlink('./salida.stl')
+      console.log('borrado')
+    } else {
+      console.log('no existe')
+    }
+  } catch (e) {
+    console.log('error')
+    console.log(e)
+  }
+
+  writeFile();
+}
+
+async function writeFile() {
+  fs.writeFile('./salida.stl', stlString, (err) => {
+    if (err) console.log(err)
+  })
+}
 
 main();
