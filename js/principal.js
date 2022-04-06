@@ -8,22 +8,16 @@ var stlString = " solid STL";
 
 async function main() {
 
-  // server.get('/params/:param&:param2&:param3&:param4', (req, res) => {
-  //   res.send({ message: `HOLA tu parametro ${req.params.param}  ${req.params.param2} ${req.params.param3} ${req.params.param4}` })
-  //   generarSTL(req.params.width)
-  // })
+  server.get('/:param&:param2&:param3&:param4', (req, res) => {
+     generarSTL(req.params.param, req.params.param2, req.params.param3, req.params.param4)
+     res.send("hey")
+   })
 
-  // server.listen(8000, () => {
-  //   console.log('En puerto 8000')
-  // })
-
-  await generarSTL(2, 2, 2, 3);
-
-  stlString += "\nendsolid STL"
-
-  fs.writeFile('./salida.stl', stlString, (err) => {
-    if (err) console.log(err)
+   server.listen(8000, () => {
+     console.log('En puerto 8000')
   })
+
+  //await generarSTL(2, 2, 2, 3);
 
   console.log(stlString.length)
 }
@@ -46,13 +40,18 @@ function generarSTL(width, depth, height, nLayer) {
   generateOppositeHorizontalFacet(width, height, depth);
 
   //altura entre capas
-  var layerHeight = (height) / (nLayer + 1) //layer+1 si son nº "estantes" y layer si nº huecos
+  var layerHeight = (height) / (Number(nLayer) + 1) //layer+1 si son nº "estantes" y layer si nº huecos
   //bucle para N capas
   for (let layer = 1; layer <= nLayer; layer++) {
     generateHorizontalFacet(width, (layer * layerHeight), depth);
     generateOppositeHorizontalFacet(width, (layer * layerHeight), depth);
   }
 
+  stlString += "\nendsolid STL"
+
+  fs.writeFile('./salida.stl', stlString, (err) => {
+    if (err) console.log(err)
+  })
 }
 
 function generateVerticalFacet(width, height, depth) {
