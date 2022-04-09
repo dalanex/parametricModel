@@ -1,48 +1,41 @@
 const express = require('express')
-const fs = require("fs");
+const fs = require("fs").promises;
 const bodyParser = require('body-parser');
 const { Console } = require('console');
 
 const server = express();
-var stlString = " solid STL";
+var stlString = "";
 
 async function main() {
 
   server.get('/:param&:param2&:param3&:param4', (req, res) => {
-    //deleteSTLIfExists();
-    generarSTL(req.params.param, req.params.param2, req.params.param3, req.params.param4)
-    res.send("hey")
+    generateSTL(req.params.param, req.params.param2, req.params.param3, req.params.param4)
   })
 
   server.listen(8000, () => {
     console.log('En puerto 8000')
   })
 
-  //deleteSTLIfExists();
-  //await generarSTL(2, 2, 2, 3);
-  console.log(stlString.length)
 }
 
-async function generarSTL(width, depth, height, nLayer) {
+async function generateSTL(width, depth, height, nLayer) {
+  stlString = " solid STL"
 
-  //Generar caras verticales 
-  //Pared Lateral sobre x = 0
   generateVerticalFacet(0, height, depth);
   generateOppositeVerticalFacet(0, height, depth)
-  //Pared Lateral sobre x = width
+
   generateVerticalFacet(width, height, depth);
   generateOppositeVerticalFacet(width, height, depth);
-  //Generar caras horizontales
-  //Generar base 
+
   generateHorizontalFacet(width, 0, depth);
   generateOppositeHorizontalFacet(width, 0, depth);
-  //Generar tapa superior 
+
   generateHorizontalFacet(width, height, depth);
   generateOppositeHorizontalFacet(width, height, depth);
 
-  //altura entre capas
-  var layerHeight = (height) / (Number(nLayer) + 1) //layer+1 si son nº "estantes" y layer si nº huecos
-  //bucle para N capas
+
+  var layerHeight = (height) / (Number(nLayer) + 1)
+
   for (let layer = 1; layer <= nLayer; layer++) {
     generateHorizontalFacet(width, (layer * layerHeight), depth);
     generateOppositeHorizontalFacet(width, (layer * layerHeight), depth);
@@ -50,84 +43,85 @@ async function generarSTL(width, depth, height, nLayer) {
 
   stlString += "\nendsolid STL"
 
-  deleteSTLIfExists();
+  writeFile();
+
 }
 
 function generateVerticalFacet(width, height, depth) {
-  let pointCenter = GeneratePoint(width, (height / 2), (depth) / 2);
+  let pointCenter = generatePoint(width, (height / 2), (depth) / 2);
 
   //First triangle
-  let point1 = GeneratePoint(width, 0, 0);
-  let point2 = GeneratePoint(width, 0, depth);
-  FacetTrinagleString(point1, point2, pointCenter);
+  let point1 = generatePoint(width, 0, 0);
+  let point2 = generatePoint(width, 0, depth);
+  facetTriangleString(point1, point2, pointCenter);
 
   //Second triangle
-  let point3 = GeneratePoint(width, height, depth);
-  FacetTrinagleString(point2, point3, pointCenter);
+  let point3 = generatePoint(width, height, depth);
+  facetTriangleString(point2, point3, pointCenter);
 
   //Third triangle
-  let point4 = GeneratePoint(width, height, 0);
-  FacetTrinagleString(point3, point4, pointCenter);
+  let point4 = generatePoint(width, height, 0);
+  facetTriangleString(point3, point4, pointCenter);
 
   //Fourth triangle
-  FacetTrinagleString(point4, point1, pointCenter);
+  facetTriangleString(point4, point1, pointCenter);
 }
 
 function generateOppositeVerticalFacet(width, height, depth) {
-  let pointCenter = GeneratePoint(width, (height / 2), (depth) / 2);
+  let pointCenter = generatePoint(width, (height / 2), (depth) / 2);
 
-  let point1 = GeneratePoint(width, 0, 0);
-  let point2 = GeneratePoint(width, height, 0);
-  FacetTrinagleString(point1, point2, pointCenter);
+  let point1 = generatePoint(width, 0, 0);
+  let point2 = generatePoint(width, height, 0);
+  facetTriangleString(point1, point2, pointCenter);
 
-  let point3 = GeneratePoint(width, height, depth);
-  FacetTrinagleString(point2, point3, pointCenter);
+  let point3 = generatePoint(width, height, depth);
+  facetTriangleString(point2, point3, pointCenter);
 
-  let point4 = GeneratePoint(width, 0, depth);
-  FacetTrinagleString(point3, point4, pointCenter);
+  let point4 = generatePoint(width, 0, depth);
+  facetTriangleString(point3, point4, pointCenter);
 
-  FacetTrinagleString(point4, point1, pointCenter);
+  facetTriangleString(point4, point1, pointCenter);
 }
 
 function generateOppositeHorizontalFacet(width, height, depth) {
-  let pointCenter = GeneratePoint((width / 2), height, (depth / 2));
+  let pointCenter = generatePoint((width / 2), height, (depth / 2));
 
   //Triangle 1
-  let point1 = GeneratePoint(0, height, 0);
-  let point2 = GeneratePoint(width, height, 0);
-  FacetTrinagleString(point1, point2, pointCenter);
+  let point1 = generatePoint(0, height, 0);
+  let point2 = generatePoint(width, height, 0);
+  facetTriangleString(point1, point2, pointCenter);
 
   //Triangle 2
-  let point3 = GeneratePoint(width, height, depth);
-  FacetTrinagleString(point2, point3, pointCenter);
+  let point3 = generatePoint(width, height, depth);
+  facetTriangleString(point2, point3, pointCenter);
 
-  let point4 = GeneratePoint(0, height, depth);
-  FacetTrinagleString(point3, point4, pointCenter);
+  let point4 = generatePoint(0, height, depth);
+  facetTriangleString(point3, point4, pointCenter);
 
-  FacetTrinagleString(point4, point1, pointCenter);
+  facetTriangleString(point4, point1, pointCenter);
 }
 
 function generateHorizontalFacet(width, height, depth) {
-  let pointCenter = GeneratePoint((width) / 2, height, (depth) / 2);
+  let pointCenter = generatePoint((width) / 2, height, (depth) / 2);
 
   //First triangle
-  let point1 = GeneratePoint(0, height, 0);
-  let point2 = GeneratePoint(0, height, depth);
-  FacetTrinagleString(point1, point2, pointCenter);
+  let point1 = generatePoint(0, height, 0);
+  let point2 = generatePoint(0, height, depth);
+  facetTriangleString(point1, point2, pointCenter);
 
   //Second Triangle
-  point3 = GeneratePoint(width, height, depth);
-  FacetTrinagleString(point2, point3, pointCenter);
+  point3 = generatePoint(width, height, depth);
+  facetTriangleString(point2, point3, pointCenter);
 
   //Third Triangle
-  let point4 = GeneratePoint(width, height, 0);
-  FacetTrinagleString(point3, point4, pointCenter);
+  let point4 = generatePoint(width, height, 0);
+  facetTriangleString(point3, point4, pointCenter);
 
   //Fourth Triangle
-  FacetTrinagleString(point4, point1, pointCenter);
+  facetTriangleString(point4, point1, pointCenter);
 }
 
-function GeneratePoint(x, y, z) {
+function generatePoint(x, y, z) {
   let point = new Object();
   point.x = x;
   point.y = y;
@@ -136,8 +130,8 @@ function GeneratePoint(x, y, z) {
   return point;
 }
 
-function FacetTrinagleString(point1, point2, pointCenter) {
-  let nVec = CalculateNVector(Points2Vector(point1, point2), Points2Vector(point1, pointCenter));
+function facetTriangleString(point1, point2, pointCenter) {
+  let nVec = calculateNVector(points2Vector(point1, point2), points2Vector(point1, pointCenter));
   stlString += `\n facet normal ${nVec.x} ${nVec.y} ${nVec.z}`
   stlString += `\n  outer loop`
   stlString += `\n   vertex ${point1.x} ${point1.y} ${point1.z}`
@@ -147,7 +141,7 @@ function FacetTrinagleString(point1, point2, pointCenter) {
   stlString += `\n endfacet`
 }
 
-function Points2Vector(p1, p2) {
+function points2Vector(p1, p2) {
   //p1 -> p2 (p2 - p1)
   let vec = new Object();
   vec.x = p2.x - p1.x;
@@ -156,7 +150,7 @@ function Points2Vector(p1, p2) {
   return vec;
 }
 
-function CalculateNVector(v1, v2) {
+function calculateNVector(v1, v2) {
   let vec = new Object();
   vec.x = (v1.y * v2.z - v1.z * v2.y)
   vec.y = (v1.z * v2.x - v1.x * v2.z)
@@ -164,24 +158,8 @@ function CalculateNVector(v1, v2) {
   return vec;
 }
 
-function deleteSTLIfExists() {
-  try {
-    if (fs.existsSync('./salida.stl')) {
-      fs.unlink('./salida.stl')
-      console.log('borrado')
-    } else {
-      console.log('no existe')
-    }
-  } catch (e) {
-    console.log('error')
-    console.log(e)
-  }
-
-  writeFile();
-}
-
-async function writeFile() {
-  fs.writeFile('./salida.stl', stlString, (err) => {
+function writeFile() {
+  fs.writeFile('./js/salida.stl', stlString, (err) => {
     if (err) console.log(err)
   })
 }
